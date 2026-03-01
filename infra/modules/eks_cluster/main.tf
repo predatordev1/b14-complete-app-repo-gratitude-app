@@ -1,0 +1,30 @@
+resource "aws_eks_cluster" "this" {
+  name     = var.eks_cluster_name
+  role_arn = aws_iam_role.eks_cluster.arn
+  version  = "1.29"
+
+  vpc_config {
+    subnet_ids              = var.subnet_ids
+    security_group_ids      = [aws_security_group.eks_cluster.id]
+    endpoint_private_access = true
+    endpoint_public_access  = true
+  }
+
+  access_config {
+    authentication_mode = "API_AND_CONFIG_MAP"
+    bootstrap_cluster_creator_admin_permissions = true
+  }
+
+  enabled_cluster_log_types = [
+    "api", "audit", "authenticator",
+    "controllerManager", "scheduler"
+  ]
+
+  tags = {
+    Environment = var.environment
+    ManagedBy   = "Terraform"
+  }
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_policy
+  ]
+}

@@ -19,9 +19,9 @@ variable "ec2_instance_type" {
   default     = "t3.micro"
 }
 
-variable "ec2_subnet_id" {
+variable "subnet_id" {
   description = "Subnet ID for EC2 instance"
-  type        = string
+  type        = list(string)
 }
 
 variable "ec2_security_group_ids" {
@@ -45,3 +45,16 @@ variable "ec2_tags" {
 #   description = "AWS profile"
 #   type        = string
 # }
+
+variable "eks_cluster_name" {
+  description = "Name of Cluster"
+  type        = string
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "environment" {
+  description = "Environment name (e.g. dev, staging, prod)"
+}

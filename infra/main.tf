@@ -12,3 +12,10 @@ module "app_ec2" {
   security_group_ids = var.ec2_security_group_ids
   key_name           = var.ec2_key_name
 }
+
+module "eks_cluster_creation" {
+  source = "./modules/eks_cluster"
+  eks_cluster_name = var.eks_cluster_name
+  subnet_ids       = var.subnet_ids
+  environment      = var.environment
+}
